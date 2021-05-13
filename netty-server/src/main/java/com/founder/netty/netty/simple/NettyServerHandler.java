@@ -21,7 +21,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-//        System.out.println("服务器读取线程 "+ Thread.currentThread().getName());
+        System.out.println("服务器读取线程 "+ Thread.currentThread().getName() + " channel:" + ctx.pipeline().channel());
+
 //
 //        System.out.println("server ctx = " + ctx);
 //
@@ -35,43 +36,43 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 //        System.out.println("客户端发送消息：" + buf.toString(CharsetUtil.UTF_8));
 //        System.out.println("客户端的地址："+ channel.remoteAddress());
 
-        ctx.channel().eventLoop().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(10*1000);
-                    ctx.writeAndFlush(Unpooled.copiedBuffer("Hello,客户端2。",CharsetUtil.UTF_8));
-                } catch (InterruptedException e) {
-                    System.out.println("发生异常" + e.getMessage());
-                }
-            }
-        });
-
-        ctx.channel().eventLoop().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(20*1000);
-                    ctx.writeAndFlush(Unpooled.copiedBuffer("Hello,客户端3。",CharsetUtil.UTF_8));
-                } catch (InterruptedException e) {
-                    System.out.println("发生异常" + e.getMessage());
-                }
-            }
-        });
-
-        ctx.channel().eventLoop().schedule(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    Thread.sleep(5* 1000);
-                    ctx.writeAndFlush(Unpooled.copiedBuffer("Hello,客户端4。",CharsetUtil.UTF_8));
-                }catch (Exception e){
-
-                    System.out.println("发生异常" + e.getMessage());
-                }
-
-            }
-        },5, TimeUnit.SECONDS);
+//        ctx.channel().eventLoop().execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(10*1000);
+//                    ctx.writeAndFlush(Unpooled.copiedBuffer("Hello,客户端2。",CharsetUtil.UTF_8));
+//                } catch (InterruptedException e) {
+//                    System.out.println("发生异常" + e.getMessage());
+//                }
+//            }
+//        });
+//
+//        ctx.channel().eventLoop().execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(20*1000);
+//                    ctx.writeAndFlush(Unpooled.copiedBuffer("Hello,客户端3。",CharsetUtil.UTF_8));
+//                } catch (InterruptedException e) {
+//                    System.out.println("发生异常" + e.getMessage());
+//                }
+//            }
+//        });
+//
+//        ctx.channel().eventLoop().schedule(new Runnable() {
+//            @Override
+//            public void run() {
+//                try{
+//                    Thread.sleep(5* 1000);
+//                    ctx.writeAndFlush(Unpooled.copiedBuffer("Hello,客户端4。",CharsetUtil.UTF_8));
+//                }catch (Exception e){
+//
+//                    System.out.println("发生异常" + e.getMessage());
+//                }
+//
+//            }
+//        },5, TimeUnit.SECONDS);
 
         System.out.println("go on!!");
 
